@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import ProTable from '@ant-design/pro-table';
 import {
   Input,
@@ -23,12 +23,13 @@ import './App.css';
 const { Text, Title } = Typography;
 const App = () => {
   const [data, setData] = useState([]);
-  const [editingRow, setEditingRow] = useState({});
+  const [editingRow, setEditingRow] = useState({}); //when edit button is clicked, this editingRow will contain the data of that particular row with the changes as done by the user.
   const [loading, setLoading] = useState({});
   const [fetchLoading, setFetchLoading] = useState(false);
   const [query, setQuery] = useState('');
 
   useEffect(() => {
+    //data fetching from mock api
     setFetchLoading(true);
     fetch('https://63e9d49ee0ac9368d644fa65.mockapi.io/data/data', {
       method: 'GET',
@@ -45,6 +46,7 @@ const App = () => {
       });
   }, []);
 
+  //function to add new task
   const handleAdd = () => {
     const newData = {
       id: `${data.length + 1}`,
@@ -59,13 +61,14 @@ const App = () => {
     setData([newData, ...data]);
     setEditingRow(newData);
   };
+  //function to remove the newly created task if it is not posted to the database
   const wipeNewlyCreatedTask = () => {
     const newData = [...data];
     newData.splice(0, 1);
     setData(newData);
     setEditingRow({});
   };
-
+  //function to implement global search
   const handleSearch = (data) => {
     return data.filter((item) =>
       JSON.stringify(item).toLowerCase().includes(query.toLowerCase())
@@ -74,6 +77,7 @@ const App = () => {
 
   const dateFormat = 'YYYY/MM/DD';
 
+  //column format of the table
   const columns = [
     {
       title: 'Date Created',
@@ -139,7 +143,6 @@ const App = () => {
       sorter: (a, b) => sortDate(a.due_date, b.due_date),
       render: (text, row) => {
         if (editingRow.id === row.id) {
-          // const disableDatesBefore = addDays(editingRow.date_created, 1);
           return (
             <DatePicker
               disabledDate={(d) => !d || d.isBefore(editingRow.date_created)}
@@ -185,9 +188,8 @@ const App = () => {
       title: 'Status',
       dataIndex: 'status',
       filters: STATUS_FILTER_OPTIONS,
-
       filterSearch: true,
-      onFilter: (value, record) => record.status.startsWith(value),
+      onFilter: (value, record) => record.status.startsWith(value), //status filtering
       render: (text, row) => {
         if (editingRow.id === row.id) {
           return (
@@ -208,6 +210,7 @@ const App = () => {
       valueType: 'option',
       dataIndex: 'id',
       render: (text, row, index, action) => {
+        //EDIT,DELTE,SAVE,CANCEL buttons
         if (editingRow.id === row.id) {
           return [
             <Button
