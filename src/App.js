@@ -51,8 +51,8 @@ const App = () => {
     const newData = {
       id: `${data.length + 1}`,
       date_created: new Date().toISOString(),
-      title: String,
-      description: String,
+      title: '',
+      description: '',
       due_date: new Date().toISOString(),
       tag: [],
       status: 'OPEN',
