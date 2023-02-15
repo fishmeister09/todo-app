@@ -1,0 +1,25 @@
+.App {
+  text-align: center;
+}
+.status {
+  font-weight: 500;
+}
+.OPEN {
+  color: #1677ff;
+  border-color: #1677ff;
+}
+.OVERDUE {
+  color: #f5222d;
+  border-color: #f5222d;
+}
+.WORKING {
+  color: #faad14;
+  border-color: #faad14;
+}
+.DONE {
+  color: #52c41a;
+  border-color: #52c41a;
+}
+.ant-pro-table-list-toolbar-setting-items {
+  display: none;
+}
