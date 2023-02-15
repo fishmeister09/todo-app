@@ -26,6 +26,7 @@ const App = () => {
   const [editingRow, setEditingRow] = useState({});
   const [loading, setLoading] = useState({});
   const [fetchLoading, setFetchLoading] = useState(false);
+  const [query, setQuery] = useState('');
 
   useEffect(() => {
     setFetchLoading(true);
@@ -65,17 +66,11 @@ const App = () => {
     setEditingRow({});
   };
 
-  const handleSearch = useCallback((e) => {
-    if (e !== '') {
-      const newData = data.filter((item) =>
-        JSON.stringify(item).toLowerCase().includes(e.toLowerCase())
-      );
-
-      setData(newData);
-    } else {
-      setData(data);
-    }
-  }, []);
+  const handleSearch = (data) => {
+    return data.filter((item) =>
+      JSON.stringify(item).toLowerCase().includes(query.toLowerCase())
+    );
+  };
 
   const dateFormat = 'YYYY/MM/DD';
 
@@ -291,7 +286,7 @@ const App = () => {
         size="small"
         columns={columns}
         loading={fetchLoading}
-        dataSource={data}
+        dataSource={handleSearch(data)}
         rowKey="id"
         search={false}
         toolBarRender={() => [
@@ -300,7 +295,7 @@ const App = () => {
             style={{
               width: 200,
             }}
-            onChange={(e) => handleSearch(e.target.value)}
+            onChange={(e) => setQuery(e.target.value)}
           />,
           <Button onClick={() => handleAdd()} type="primary">
             Add new task
