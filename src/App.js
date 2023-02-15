@@ -70,6 +70,7 @@ const App = () => {
       const newData = data.filter((item) =>
         JSON.stringify(item).toLowerCase().includes(e.toLowerCase())
       );
+
       setData(newData);
     } else {
       setData(data);
